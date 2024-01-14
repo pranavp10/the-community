@@ -12,11 +12,13 @@
   "occupation": "Occupation",
   "livingPlace": "Current Living Place",
   "bloodGroup": "Blood Group",
+  "selectBloodGroup": "Select Blood Group",
   "contactNumber": "Contact Number",
   "gender": "Gender",
   "relation": "Relation",
   "maritalStatus": "Marital Status",
   "maternalPlace": "Maternal Place",
+  "selectMaternalPlace": "Select Maternal Place",
   "saveDetails": "Save details",
   "patel": "Patel",
   "selectNativePlace": "Select naive place",
@@ -61,5 +63,7 @@
     "pentalpura": "pentalpura",
     "naarnamuvada": "naar na muvada",
     "chhapariya": "chhapariya"
-  }
+  },
+  "married": "married",
+  "unmarried": "unmarried"
 }

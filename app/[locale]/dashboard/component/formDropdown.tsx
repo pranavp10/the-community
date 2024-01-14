@@ -26,7 +26,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useTranslations } from "next-intl";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function FromDropDown({
@@ -34,15 +33,18 @@ export function FromDropDown({
   label,
   formName,
   description,
+  enableSearch,
   placeHolder,
+  scrollAreaHeight,
 }: {
   dropDownValue: { label: string; value: string }[];
   label: string;
   formName: string;
   description?: string;
   placeHolder: string;
+  enableSearch?: boolean;
+  scrollAreaHeight?: string;
 }) {
-  const t = useTranslations("nativePlaceName");
   const form = useFormContext();
 
   return (
@@ -63,7 +65,11 @@ export function FromDropDown({
                     !field.value && "text-muted-foreground"
                   )}
                 >
-                  {field.value ? t(field.value) : placeHolder}
+                  {field.value
+                    ? dropDownValue.find(
+                        (language) => language.value === field.value
+                      )?.label
+                    : placeHolder}
                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
@@ -71,12 +77,13 @@ export function FromDropDown({
 
             <PopoverContent className="w-full p-1 min-w-[var(--radix-popover-trigger-width)]">
               <Command>
-                <CommandInput
-                  placeholder="Search framework..."
-                  className="h-9"
-                />
-                <ScrollArea className="h-48">
-                  <CommandEmpty>No framework found.</CommandEmpty>
+                {enableSearch && (
+                  <CommandInput placeholder="Search" className="h-9" />
+                )}
+                <ScrollArea
+                  className={scrollAreaHeight ? scrollAreaHeight : "h-48"}
+                >
+                  <CommandEmpty>No found.</CommandEmpty>
                   <CommandGroup>
                     {dropDownValue.map((dropdownDetails) => (
                       <CommandItem
@@ -87,7 +94,7 @@ export function FromDropDown({
                           form.setValue(formName, dropdownDetails.value);
                         }}
                       >
-                        {t(dropdownDetails.label)}
+                        {dropdownDetails.label}
                         <CheckIcon
                           className={cn(
                             "ml-auto h-6 w-6",

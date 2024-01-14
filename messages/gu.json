@@ -12,11 +12,13 @@
   "occupation": "વ્યવસાય",
   "livingPlace": "રહેઠાણ સરનામું",
   "bloodGroup": "બ્લડ ગ્રુપ",
+  "selectBloodGroup": "બ્લડ ગ્રુપ પસંદ કરો",
   "contactNumber": "સંપર્ક નંબર",
   "gender": "લિંગ",
   "relation": "સંબંધ",
   "maritalStatus": "વૈવાહિક સ્થિતિ",
   "maternalPlace": "મોસાળ",
+  "selectMaternalPlace": "મોસાળ પસંદ કરો",
   "saveDetails": "વિગતો ઉમેરો",
   "patel": "પટેલ",
   "selectNativePlace": "મૂળ વતન પસંદ કરો",
@@ -61,5 +63,7 @@
     "pentalpura": "પેન્ટલપુરા",
     "naarnamuvada": "નાર ના મુવાડા",
     "chhapariya": "છાપરીયા"
-  }
+  },
+  "married": "પરિણીત",
+  "unmarried": "અપરિણીત"
 }

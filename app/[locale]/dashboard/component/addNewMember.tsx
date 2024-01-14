@@ -18,6 +18,7 @@ import FormTextarea from "./formTextarea";
 import { FromDropDown } from "./formDropdown";
 import FormTelInput from "./fromTelInput";
 import { nativePlace } from "@/data/nativeplace";
+import { bloodGroup } from "@/data/bloodGroup";
 
 export function OpenAddNewMemberDrawer({
   addButtonName,
@@ -43,6 +44,8 @@ export function OpenAddNewMemberDrawer({
 
 function ProfileForm({ className }: React.ComponentProps<"form">) {
   const t = useTranslations();
+  const nativePlaceT = useTranslations("nativePlaceName");
+
   const form = useForm<z.infer<typeof addMemberSchema>>({
     resolver: zodResolver(addMemberSchema),
     defaultValues: {
@@ -77,15 +80,48 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         <FormInput label={t("yourFatherName")} formName="fatherName" />
         <FormTelInput label={t("contactNumber")} formName="contact" />
         <FromDropDown
-          dropDownValue={nativePlace}
+          dropDownValue={nativePlace.map(({ label, value }) => ({
+            label: nativePlaceT(value),
+            value,
+          }))}
           formName="nativePlace"
           label={t("nativePlace")}
           placeHolder={t("selectNativePlace")}
+          enableSearch
         />
+        <FromDropDown
+          dropDownValue={["married", "unmarried"].map((value) => ({
+            label: t(value),
+            value: value,
+          }))}
+          formName="maritalStatus"
+          label={t("maritalStatus")}
+          placeHolder={t("selectBloodGroup")}
+          scrollAreaHeight="h-auto"
+        />
+        <FromDropDown
+          dropDownValue={bloodGroup.map((group) => ({
+            label: group,
+            value: group,
+          }))}
+          formName="bloodGroup"
+          label={t("bloodGroup")}
+          placeHolder={t("selectBloodGroup")}
+        />
+        <DateOfBirth />
         <FormInput label={t("eduction")} formName="eduction" />
         <FormInput label={t("occupation")} formName="occupation" />
         <FormTextarea label={t("livingPlace")} formName="livingPlace" />
-        <DateOfBirth />
+        <FromDropDown
+          dropDownValue={nativePlace.map(({ label, value }) => ({
+            label: nativePlaceT(value),
+            value,
+          }))}
+          formName="maternalPlace"
+          label={t("maternalPlace")}
+          placeHolder={t("selectMaternalPlace")}
+          enableSearch
+        />
         <Button type="submit" className="text-xl">
           {t("saveDetails")}
         </Button>
