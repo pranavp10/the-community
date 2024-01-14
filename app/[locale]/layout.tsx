@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider, useMessages } from "next-intl";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ const RootLayout = ({
       <body className={inter.className}>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <div className="max-w-sm m-auto px-4">{children}</div>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

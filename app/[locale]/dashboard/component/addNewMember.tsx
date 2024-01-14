@@ -6,11 +6,18 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusIcon } from "@radix-ui/react-icons";
-import {
-  NextIntlClientProvider,
-  useMessages,
-  useTranslations,
-} from "next-intl";
+import { useTranslations } from "next-intl";
+import { DateOfBirth } from "./dateOfBirth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Form } from "@/components/ui/form";
+import { addMemberSchema } from "../schema/addMemberSchema";
+import FormInput from "./formInput";
+import FormTextarea from "./formTextarea";
+import { FromDropDown } from "./formDropdown";
+import FormTelInput from "./fromTelInput";
+import { nativePlace } from "@/data/nativeplace";
 
 export function OpenAddNewMemberDrawer({
   addButtonName,
@@ -18,7 +25,6 @@ export function OpenAddNewMemberDrawer({
   addButtonName: string;
 }) {
   const [open, setOpen] = React.useState(false);
-  const messages = useMessages();
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -37,22 +43,53 @@ export function OpenAddNewMemberDrawer({
 
 function ProfileForm({ className }: React.ComponentProps<"form">) {
   const t = useTranslations();
+  const form = useForm<z.infer<typeof addMemberSchema>>({
+    resolver: zodResolver(addMemberSchema),
+    defaultValues: {
+      username: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof addMemberSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
 
   return (
-    <form
-      className={cn("grid items-start overflow-auto gap-4 mb-3", className)}
-    >
-      <div className="grid gap-2">
-        <Label htmlFor="firstName" className="font-normal font-medium">
-          {t("yourFirstName")}
-        </Label>
-        <Input id="firstName" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="firstname">Username</Label>
-        <Input id="username" defaultValue="@shadcn" />
-      </div>
-      <Button type="submit">{t("saveDetails")}</Button>
-    </form>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("grid items-start overflow-auto gap-4 mb-3", className)}
+      >
+        <div className="grid gap-2">
+          <Label htmlFor="surname" className="text-xl font-medium">
+            {t("yourSurname")}
+          </Label>
+          <Input
+            id="surname"
+            className="text-xl font-medium"
+            defaultValue={t("patel")}
+            disabled
+          />
+        </div>
+        <FormInput label={t("yourFirstName")} formName="firstName" />
+        <FormInput label={t("yourFatherName")} formName="fatherName" />
+        <FormTelInput label={t("contactNumber")} formName="contact" />
+        <FromDropDown
+          dropDownValue={nativePlace}
+          formName="nativePlace"
+          label={t("nativePlace")}
+          placeHolder={t("selectNativePlace")}
+        />
+        <FormInput label={t("eduction")} formName="eduction" />
+        <FormInput label={t("occupation")} formName="occupation" />
+        <FormTextarea label={t("livingPlace")} formName="livingPlace" />
+        <DateOfBirth />
+        <Button type="submit" className="text-xl">
+          {t("saveDetails")}
+        </Button>
+      </form>
+    </Form>
   );
 }
